@@ -1,17 +1,20 @@
 import fitbit
 import pprint
 from datetime import date
-
 import asyncio
 import websockets
+from get_ip import get_ip
+
 
 if __name__ == "__main__":
-    async def echo(websocket, path):
+    async def echo(websocket: websockets.WebSocketServerProtocol, path: str):
         async for message in websocket:
             await websocket.send(message)
 
-    start_server = websockets.serve(echo, "192.168.86.246", 8765)
-    print('Started')
+
+    ip = get_ip()
+    start_server = websockets.serve(echo, ip, 8765)
+    print('Serving on:', ip)
 
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever()
