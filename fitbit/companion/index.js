@@ -1,17 +1,18 @@
-import * as messaging from "messaging";
-import { handleError } from '../shared/handleError';
-import { sendMessage } from '../shared/sendMessage';
+import { peerSocket } from 'messaging'
+import { handlePSError } from '../shared/handlePSError'
+import { ServerConnection } from './ServerConnection'
 
-// Listen for the onopen event
-messaging.peerSocket.onopen = function () {
-  sendMessage()
+const server = new ServerConnection()
+
+peerSocket.onopen = function () {
+  console.log('Device connected')
 }
 
-// Listen for the onmessage event
-messaging.peerSocket.onmessage = function (evt) {
-  // Output the message to the console
-  console.log(JSON.stringify(evt.data));
+peerSocket.onmessage = function (evt) {
+  const { data } = evt
+  console.log('Message from device: ', data)
+  console.log('Sending to server...')
+  server.send(data)
 }
 
-// Listen for the onerror event
-messaging.peerSocket.onerror = handleError
+peerSocket.onerror = handlePSError
