@@ -1,3 +1,5 @@
 **venv**
 node_modules
 build
+.idea
+**/__pycache__/
