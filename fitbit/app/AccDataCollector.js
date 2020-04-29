@@ -3,6 +3,7 @@ import { Accelerometer } from 'accelerometer'
 import { sendMessage } from '../common/sendMessage'
 import { absMean, roundToNearestSecond } from './util'
 import { sleep } from '../common/sleep'
+import { statusText } from './ui'
 
 export class AccDataCollector {
     static started = false
@@ -30,7 +31,9 @@ export class AccDataCollector {
             // collectStart.setSeconds(collectStart.getSeconds())
             // const collectEnd = new Date()
             // collectEnd.setSeconds(collectEnd.getSeconds() + 10)
-            console.log(`Acc data collection will occur from ${collectStart} to ${collectEnd}`)
+            const message = `Acc data collection will occur from ${collectStart} to ${collectEnd}`
+            console.log(message)
+            statusText.text = message
             if (now > collectStart && now < collectEnd) {
                 await this._collect(collectEnd)
             } else {
