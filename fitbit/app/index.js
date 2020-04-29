@@ -30,7 +30,7 @@ if (Accelerometer) {
                 z: absMean(z),
                 time: date.getTime()
             }
-            sendMessage(processed)
+            sendMessage('acc', processed)
         }
     })
     accel.start()

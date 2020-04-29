@@ -1,7 +1,7 @@
 import { peerSocket } from 'messaging'
 
-export function sendMessage(data) {
+export function sendMessage(type, data) {
     if (peerSocket.readyState === peerSocket.OPEN) {
-        peerSocket.send(data)
+        peerSocket.send({type, data})
     }
 }
