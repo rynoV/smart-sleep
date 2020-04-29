@@ -1,12 +1,17 @@
 import { peerSocket } from 'messaging'
-import { handlePSError } from '../shared/handlePSError'
+import { handlePSError } from '../common/handlePSError'
 import { ServerConnection } from './ServerConnection'
 import { messages } from './peer'
+import { settingsKeys } from '../common/vars'
+import { sendMessage } from '../common/sendMessage'
+import { getSetting } from './settingsUtil'
 
-const server = new ServerConnection()
+// const server = new ServerConnection()
 
 peerSocket.onopen = function () {
-    console.log('Device connected')
+    const wakeHour = parseInt(getSetting(settingsKeys.wakeHour))
+    const wakeMin = parseInt(getSetting(settingsKeys.wakeMin))
+    sendMessage('wakeInfo', { wakeHour, wakeMin })
 }
 
 peerSocket.onmessage = function (evt) {

@@ -1,0 +1,1 @@
+export const settingsKeys = { ip: 'ip', wakeHour: 'wakeHour', wakeMin: 'wakeMin' }

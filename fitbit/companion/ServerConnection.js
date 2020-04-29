@@ -1,7 +1,7 @@
-import { sendMessage } from '../shared/sendMessage'
-import { sleep } from '../shared/sleep'
-
-import { settingsStorage } from 'settings'
+import { sendMessage } from '../common/sendMessage'
+import { sleep } from '../common/sleep'
+import { settingsKeys } from '../common/vars'
+import { getSetting } from './settingsUtil'
 
 export class ServerConnection {
     _websocket
@@ -18,7 +18,7 @@ export class ServerConnection {
         try {
             let count = 0
             while (count <= 10) {
-                if (this._websocket.readyState == this._websocket.OPEN) {
+                if (this._websocket.readyState === this._websocket.OPEN) {
                     this._websocket.send(JSON.stringify(data))
                     return
                 } else {
@@ -34,13 +34,11 @@ export class ServerConnection {
     }
 
     _getUri() {
-        const ipAddrSetting = settingsStorage.getItem('ipAddress')
-        let ip
-        if (ipAddrSetting == null) {
+        let ip = getSetting(settingsKeys.ip)
+        if (ip == null) {
             ip = '192.168.86.246:8765'
             console.log('Using default IP address: ', ip)
         } else {
-            ip = JSON.parse(ipAddrSetting).name
             console.log('Using IP address from settings: ', ip)
         }
         return 'ws://' + ip
@@ -55,7 +53,7 @@ export class ServerConnection {
     }
 
     _onMessage(evt) {
-        const {data} = evt
+        const { data } = evt
         console.log(`Websocket message: ${data}`)
         console.log('Sending to device...')
         sendMessage(data)

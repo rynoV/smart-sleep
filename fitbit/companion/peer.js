@@ -1,18 +1,5 @@
 import { localStorage } from 'local-storage'
-
-class Message {
-    constructor(data) {
-        this._data = this.parseData(data)
-    }
-
-    parseData(data) {
-        throw new Error('Must implement parseData')
-    }
-
-    respond() {
-        throw new Error('Must implement respond')
-    }
-}
+import { Message } from '../common/peer'
 
 class AccMessage extends Message {
     _lsKey = 'acc'
@@ -33,6 +20,7 @@ class AccMessage extends Message {
         const accDataStr = localStorage.getItem(this._lsKey) || ''
         const accData = accDataStr === '' ? [] : JSON.parse(accDataStr)
         accData.push(this._data)
+        console.log(accData)
         localStorage.setItem(this._lsKey, JSON.stringify(accData))
         localStorage.clear()
     }

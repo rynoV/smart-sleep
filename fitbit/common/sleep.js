@@ -1,5 +1,8 @@
-export function sleep(ms) {
+export function sleep(ms, callback=() => {}) {
     return new Promise((resolve) => {
-        setTimeout(resolve, ms)
+        setTimeout(async () => {
+            await callback()
+            resolve()
+        }, ms)
     })
 }
