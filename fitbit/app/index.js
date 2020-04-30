@@ -1,8 +1,10 @@
-import document from 'document'
 import { peerSocket } from 'messaging'
+import { me } from "appbit";
 import { handlePSError } from '../common/handlePSError'
 import { messages } from './peer'
 import { statusText } from './ui'
+
+me.appTimeoutEnabled = false
 
 statusText.text = 'Starting...'
 

@@ -1,9 +1,9 @@
 import { localStorage } from 'local-storage'
 import { Message } from '../common/peer'
 
-class AccMessage extends Message {
-    _lsKey = 'acc'
+const accLsKey = 'acc'
 
+class AccMessage extends Message {
     parseData(data) {
         if (data.hasOwnProperty('x')
             && data.hasOwnProperty('y')
@@ -17,15 +17,34 @@ class AccMessage extends Message {
     }
 
     respond() {
-        const accDataStr = localStorage.getItem(this._lsKey) || ''
+        const accDataStr = localStorage.getItem(accLsKey) || ''
         const accData = accDataStr === '' ? [] : JSON.parse(accDataStr)
         accData.push(this._data)
-        console.log(accData)
-        localStorage.setItem(this._lsKey, JSON.stringify(accData))
-        localStorage.clear()
+        console.log('LS LENGTH: ', accData.length)
+        localStorage.setItem(accLsKey, JSON.stringify(accData))
+    }
+}
+
+class AccFinishMessage extends Message {
+    async respond() {
+        const accDataStr = localStorage.getItem(accLsKey) || ''
+        if (accDataStr !== '' && this._server) {
+            console.log('Sending acc data to server...')
+            const res = await this._server.send(JSON.parse(accDataStr), this._server.routes.acc)
+            const statusMessage = `${res.status}: ${res.statusText}`
+            console.log(`Server responded with ${statusMessage}`)
+            if (res.ok) {
+                console.log(`Clearing acc data...`)
+                localStorage.setItem(accLsKey, JSON.stringify([]))
+            } else {
+                const body = await res.text()
+                throw new Error(`Received status ${statusMessage} with body: ${body}`)
+            }
+        }
     }
 }
 
 export const messages = {
-    acc: AccMessage
+    acc: AccMessage,
+    accFinish: AccFinishMessage
 }

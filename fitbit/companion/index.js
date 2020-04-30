@@ -6,7 +6,7 @@ import { settingsKeys } from '../common/vars'
 import { sendMessage } from '../common/sendMessage'
 import { getSetting } from './settingsUtil'
 
-// const server = new ServerConnection()
+const server = new ServerConnection()
 
 peerSocket.onopen = function () {
     const wakeHour = parseInt(getSetting(settingsKeys.wakeHour))
@@ -14,9 +14,14 @@ peerSocket.onopen = function () {
     sendMessage('wakeInfo', { wakeHour, wakeMin })
 }
 
-peerSocket.onmessage = function (evt) {
+peerSocket.onmessage = async function (evt) {
     const { data: message } = evt
-    new messages[message.type](message.data).respond()
+    console.log('MESSAGE: ', message.type, message.data)
+    try {
+        await new messages[message.type](message.data, server).respond()
+    } catch (e) {
+        console.error(e)
+    }
 }
 
 peerSocket.onerror = handlePSError

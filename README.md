@@ -64,9 +64,9 @@ which sleep portion they fall in.
 
 ## Server-Fitbit Communication
 
-The companion for the Fitbit communicates with the server via websockets. The
+The companion for the Fitbit communicates with the server via HTTP. The
 Fitbit application has an IP address setting whose value is used to construct
-the server's websocket URI.
+the server's URL.
 
 ### Finding the Server's IP Address
 

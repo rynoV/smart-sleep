@@ -1,13 +1,18 @@
 export class Message {
-    constructor(data) {
+    /**
+     * @param data
+     * @param {ServerConnection} server
+     */
+    constructor(data, server=null) {
         this._data = this.parseData(data)
+        this._server = server
     }
 
     parseData(data) {
-        throw new Error('Must implement parseData')
+        return data
     }
 
-    respond() {
+    async respond() {
         throw new Error('Must implement respond')
     }
 }

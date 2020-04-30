@@ -30,7 +30,7 @@ export class AccDataCollector {
             // const collectStart = new Date()
             // collectStart.setSeconds(collectStart.getSeconds())
             // const collectEnd = new Date()
-            // collectEnd.setSeconds(collectEnd.getSeconds() + 10)
+            // collectEnd.setSeconds(collectEnd.getSeconds() + 3)
             const message = `Acc data collection will occur from ${collectStart} to ${collectEnd}`
             console.log(message)
             statusText.text = message
@@ -50,6 +50,7 @@ export class AccDataCollector {
         await sleep(millisTilEnd, () => {
             stopper()
             console.log('Stopping accelerometer data collection')
+            sendMessage('accFinish', true)
         })
     }
 
