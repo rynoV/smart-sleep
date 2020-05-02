@@ -1,4 +1,4 @@
-from http_server import ip, port, server
+from server.http_server import ip, port, server
 
 if __name__ == "__main__":
     try:

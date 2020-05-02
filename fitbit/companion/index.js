@@ -8,6 +8,12 @@ import { getSetting } from './settingsUtil'
 
 const server = new ServerConnection()
 
+// new messages.accFinish(true, server).respond().then(() => {
+//     console.log('Done')
+// }).catch(reason => {
+//     console.error(reason)
+// })
+
 peerSocket.onopen = function () {
     const wakeHour = parseInt(getSetting(settingsKeys.wakeHour))
     const wakeMin = parseInt(getSetting(settingsKeys.wakeMin))

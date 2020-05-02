@@ -1,11 +1,11 @@
+from dataclasses import dataclass
 from datetime import date
 from pprint import pprint
-from dataclasses import dataclass
 from typing import List
 
 from fitbit import Fitbit
 
-from gather_keys_oauth2 import OAuth2Server
+from util.gather_keys_oauth2 import OAuth2Server
 
 
 @dataclass

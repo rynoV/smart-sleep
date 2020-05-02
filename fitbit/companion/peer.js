@@ -35,7 +35,7 @@ class AccFinishMessage extends Message {
             console.log(`Server responded with ${statusMessage}`)
             if (res.ok) {
                 console.log(`Clearing acc data...`)
-                localStorage.setItem(accLsKey, JSON.stringify([]))
+                // localStorage.setItem(accLsKey, JSON.stringify([]))
             } else {
                 const body = await res.text()
                 throw new Error(`Received status ${statusMessage} with body: ${body}`)
