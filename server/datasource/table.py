@@ -31,11 +31,11 @@ class Table(ABC, Generic[T]):
         cursor = self._connection.execute(sql)
         return [self._data_from_row(row) for row in cursor]
 
-    def insert(self, acc_data: T) -> None:
+    def insert(self, data: T) -> None:
         with self._connection:
-            self._connection.execute(self._insert_sql, Table._prepare_params(acc_data))
+            self._connection.execute(self._insert_sql, Table._prepare_params(data))
 
-    def insert_many(self, acc_data: Iterable[T]) -> None:
+    def insert_many(self, data: Iterable[T]) -> None:
         with self._connection:
             self._connection.executemany(self._insert_sql, [Table._prepare_params(item) for item in acc_data])
 
@@ -49,8 +49,8 @@ class Table(ABC, Generic[T]):
     def _data_from_row(self, row: sqlite3.Row) -> T: ...
 
     @staticmethod
-    def _prepare_params(acc_data: T) -> Sequence:
-        return tuple(acc_data)
+    def _prepare_params(data: T) -> Sequence:
+        return tuple(data)
 
     def _create_table(self) -> None:
         column_decs = ' ,'.join([f'{column.name} {column.type}' for column in self._get_columns()])

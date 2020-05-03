@@ -10,7 +10,7 @@ class ReqHandler(ABC, Generic[T]):
     _server: 'http_server.Server'
     _body: T
 
-    def __init__(self, server: 'http_server.Server', body: Any = None):
+    def __init__(self, server: 'http_server.Server', body: str = ''):
         self._server = server
         self._body = self.handle_body(body)
 
@@ -18,6 +18,6 @@ class ReqHandler(ABC, Generic[T]):
     def respond(self): ...
 
     @abstractmethod
-    def handle_body(self, data: Any) -> T: ...
+    def handle_body(self, body: str) -> T: ...
 
 
