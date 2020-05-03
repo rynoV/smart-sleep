@@ -22,7 +22,8 @@ class Table(ABC, Generic[T]):
     def __init__(self, db_path: str = 'data/sqlite/dev.db'):
         self._connection = sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)
         self._connection.row_factory = sqlite3.Row
-        q_marks = ','.join('?' for c in self._get_columns())
+        q_marks = ','.join('?' * len(self._get_columns()))
+        print(q_marks)
         self._insert_sql = f'insert into {self._get_name()} values ({q_marks})'
         self._create_table()
 
@@ -37,10 +38,15 @@ class Table(ABC, Generic[T]):
 
     def insert_many(self, data: Iterable[T]) -> None:
         with self._connection:
-            self._connection.executemany(self._insert_sql, [Table._prepare_params(item) for item in acc_data])
+            self._connection.executemany(self._insert_sql, [Table._prepare_params(item) for item in data])
+
+    def clear(self):
+        with self._connection:
+            sql = f'delete from {self._get_name()}'
+            self._connection.execute(sql)
 
     @abstractmethod
-    def _get_columns(self) -> Iterable[Column]: ...
+    def _get_columns(self) -> List[Column]: ...
 
     @abstractmethod
     def _get_name(self) -> str: ...

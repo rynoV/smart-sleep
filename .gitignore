@@ -3,3 +3,4 @@ node_modules
 build
 .idea
 **/__pycache__/
+/server/data/sqlite/testing.db

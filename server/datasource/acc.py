@@ -29,7 +29,7 @@ class AccTable(Table[AccData]):
         Column(name='time', type='timestamp'),
     ]
 
-    def _get_columns(self) -> Iterable[Column]:
+    def _get_columns(self) -> List[Column]:
         return self._columns
 
     def _get_name(self) -> str:
