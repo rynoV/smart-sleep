@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, TypeVar, Generic
+from typing import TypeVar, Generic
 
 from server import http_server
 
@@ -19,5 +19,3 @@ class ReqHandler(ABC, Generic[T]):
 
     @abstractmethod
     def handle_body(self, body: str) -> T: ...
-
-

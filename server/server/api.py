@@ -1,8 +1,8 @@
 from typing import Dict, Type
 
-from server.acc_request import AccReqHandler
-from server.request import ReqHandler
+import server.acc_request as acc
+import server.request
 
-routes: Dict[str, Type[ReqHandler]] = {
-    '/acc': AccReqHandler
+routes: Dict[str, Type[server.request.ReqHandler]] = {
+    '/acc': acc.AccReqHandler
 }

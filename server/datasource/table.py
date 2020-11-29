@@ -23,7 +23,6 @@ class Table(ABC, Generic[T]):
         self._connection = sqlite3.connect(db_path, detect_types=sqlite3.PARSE_DECLTYPES)
         self._connection.row_factory = sqlite3.Row
         q_marks = ','.join('?' * len(self._get_columns()))
-        print(q_marks)
         self._insert_sql = f'insert into {self._get_name()} values ({q_marks})'
         self._create_table()
 

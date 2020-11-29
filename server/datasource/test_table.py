@@ -43,12 +43,11 @@ class TestTable(unittest.TestCase):
     table: Table = TestingTable(db_path)
 
     def setUp(self) -> None:
-        with self.connection:
-            self.table.clear()
+        self.table.clear()
 
     @classmethod
     def tearDownClass(cls) -> None:
-        cls.connection.close()
+        db_test_utils.tearDownClass(cls.table, cls.connection)
 
     def test_insert(self):
         data = TestingData(t='test', d=datetime.now())
@@ -60,11 +59,14 @@ class TestTable(unittest.TestCase):
                 self.assertEqual(data.d, row['d'])
 
     def test_insert_many(self):
-        data = [TestingData(t='test', d=datetime.now()), TestingData(t='test1', d=datetime.now().replace(year=2000))]
+        d_len = 20
+        data = [TestingData(t=str(i), d=datetime.now().replace(year=2000 + i, microsecond=i * 50)) for i in
+                range(d_len)]
         self.table.insert_many(data)
         with self.connection:
-            cur = self.connection.execute(f'select * from {self.table._get_name()}')
-            for i, row in enumerate(cur):
+            rows = self.connection.execute(f'select * from {self.table._get_name()}').fetchall()
+            self.assertEqual(d_len, len(rows))
+            for i, row in enumerate(rows):
                 self.assertEqual(data[i].t, row['t'])
                 self.assertEqual(data[i].d, row['d'])
 
