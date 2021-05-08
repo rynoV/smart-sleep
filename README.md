@@ -1,5 +1,7 @@
 # Smart Sleep
 
+> **Note**: The development of this project has been moved to another (private) repository.
+
 An application to use data from a Fitbit device and machine learning to wake the
 user up during REM sleep.
 
